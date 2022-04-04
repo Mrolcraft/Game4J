@@ -19,16 +19,16 @@ public class Personnage{
 
   public void move(String direction){
     if(direction=="UP"){
-      this.position=position.getVoisinNord();
+      this.position=position.getNorth();
     }
     if(direction=="DOWN"){
-      this.position.position.getVoisinSud();
+      this.position.position.getSouth();
     }
     if(direction=="RIGHT"){
-      this.position.position.getVoisinEst();
+      this.position.position.getEast();
     }
     if(direction=="LEFT"){
-      this.position.position.getVoisinOuest();
+      this.position.position.getWest();
     }
   }
 
