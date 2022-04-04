@@ -1,3 +1,5 @@
+package fr.perroquets.game4j;
+
 public class Personnage{
   private int initialEnergy;
   private int lostEnergy;
@@ -22,13 +24,13 @@ public class Personnage{
       this.position=position.getNorth();
     }
     if(direction=="DOWN"){
-      this.position.position.getSouth();
+      this.position = position.getSouth();
     }
     if(direction=="RIGHT"){
-      this.position.position.getEast();
+      this.position = position.getEast();
     }
     if(direction=="LEFT"){
-      this.position.position.getWest();
+      this.position = position.getWest();
     }
   }
 
