@@ -11,9 +11,6 @@ public class Carte {
 
     private List<Case> cases = new ArrayList<>();
 
-
-
-
     public Carte(int dimensions) {
         this.dimensions = dimensions;
     }
