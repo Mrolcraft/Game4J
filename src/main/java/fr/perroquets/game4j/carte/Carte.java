@@ -1,8 +1,18 @@
 package fr.perroquets.game4j.carte;
 
+import fr.perroquets.game4j.Case;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Carte {
 
     private int dimensions;
+
+    private List<Case> cases = new ArrayList<>();
+
+
+
 
     public Carte(int dimensions) {
         this.dimensions = dimensions;
@@ -18,6 +28,10 @@ public class Carte {
      */
     public void generateCarte() {
 
+    }
+
+    public List<Case> getCases() {
+        return cases;
     }
 
     public void afficherCarte() {
