@@ -2,6 +2,7 @@ package fr.perroquets.game4j;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Personnage{
@@ -15,6 +16,7 @@ public class Personnage{
     private int currentUndoCount;
     private Direction direction = Direction.NULL;
     private Case position;
+    private int mvtId = 0;
 
     private List<Movement> history = new ArrayList<>();
 
@@ -54,6 +56,10 @@ public class Personnage{
         System.out.println("Vous avez reculé d'une case ! Vous pouvez encore effectuer " + this.currentUndoCount + " marche(s) arrière(s).");
     }
 
+    private void incrementMovement() {
+        this.mvtId++;
+    }
+
     /*
     TODO:
      */
@@ -62,8 +68,8 @@ public class Personnage{
             if(position.getNorth() == null) return;
             if(position.getNorth().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
-                this.history.add(new Movement(this.position, position.getNorth()));
-                this.history.add(new Movement(position.getNorth(), this.position));
+                this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
+                this.history.add(new Movement(this.mvtId, position.getNorth(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getNorth().getEnergy());
                 this.position.getNorth().setHidden(false);
                 this.setLostEnergy(this.position.getNorth().getEnergy() + this.getLostEnergy());
@@ -71,7 +77,7 @@ public class Personnage{
                 chechHistory();
             } else if(position.getNorth().getCaseType() == CaseType.BONUS) {
                 System.out.println("Vous avez eu un bonus ! +10 énergie");
-                this.history.add(new Movement(this.position, position.getNorth()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getNorth().getEnergy());
                 this.setWonEnergy(this.position.getNorth().getEnergy() + this.getWonEnergy());
                 this.position.getNorth().setCaseType(CaseType.BLANK);
@@ -81,7 +87,7 @@ public class Personnage{
                 this.position = position.getNorth();
                 chechHistory();
             }  else {
-                this.history.add(new Movement(this.position, position.getNorth()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getNorth().getEnergy());
                 this.setLostEnergy(this.position.getNorth().getEnergy() + this.getLostEnergy());
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
@@ -93,8 +99,8 @@ public class Personnage{
             if(position.getSouth() == null) return;
             if(position.getSouth().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
-                this.history.add(new Movement(this.position, position.getSouth()));
-                this.history.add(new Movement(position.getSouth(), this.position));
+                this.history.add(new Movement(this.mvtId, this.position, position.getSouth()));
+                this.history.add(new Movement(this.mvtId, position.getSouth(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getSouth().getEnergy());
                 this.setLostEnergy(this.position.getSouth().getEnergy() + this.getLostEnergy());
                 this.position.getSouth().setHidden(false);
@@ -102,7 +108,7 @@ public class Personnage{
                 chechHistory();
             } else if(position.getSouth().getCaseType() == CaseType.BONUS) {
                 System.out.println("Vous avez eu un bonus ! +10 énergie");
-                this.history.add(new Movement(this.position, position.getSouth()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getSouth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getSouth().getEnergy());
                 this.setWonEnergy(this.position.getSouth().getEnergy() + this.getWonEnergy());
                 this.position.getSouth().setCaseType(CaseType.BLANK);
@@ -112,7 +118,7 @@ public class Personnage{
                 this.position = position.getSouth();
                 chechHistory();
             } else {
-                this.history.add(new Movement(this.position, position.getSouth()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getSouth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getSouth().getEnergy());
                 this.setLostEnergy(this.position.getSouth().getEnergy() + this.getLostEnergy());
                 this.position.getSouth().setHidden(false);
@@ -125,8 +131,8 @@ public class Personnage{
             if(position.getEast() == null) return;
             if(position.getEast().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
-                this.history.add(new Movement(this.position, position.getEast()));
-                this.history.add(new Movement(position.getEast(), this.position));
+                this.history.add(new Movement(this.mvtId, this.position, position.getEast()));
+                this.history.add(new Movement(this.mvtId, position.getEast(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getEast().getEnergy());
                 this.setLostEnergy(this.position.getEast().getEnergy() + this.getLostEnergy());
                 this.position.getEast().setHidden(false);
@@ -134,7 +140,7 @@ public class Personnage{
                 chechHistory();
             } else if(position.getEast().getCaseType() == CaseType.BONUS) {
                 System.out.println("Vous avez eu un bonus ! +10 énergie");
-                this.history.add(new Movement(this.position, position.getEast()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getEast()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getEast().getEnergy());
                 this.setWonEnergy(this.position.getEast().getEnergy() + this.getWonEnergy());
                 this.position.getEast().setCaseType(CaseType.BLANK);
@@ -144,7 +150,7 @@ public class Personnage{
                 this.position = position.getEast();
                 chechHistory();
             } else {
-                this.history.add(new Movement(this.position, position.getEast()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getEast()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getEast().getEnergy());
                 this.setLostEnergy(this.position.getEast().getEnergy() + this.getLostEnergy());
                 this.position.getEast().setHidden(false);
@@ -157,8 +163,8 @@ public class Personnage{
             if(position.getWest() == null) return;
             if(position.getWest().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
-                this.history.add(new Movement(this.position, position.getWest()));
-                this.history.add(new Movement(position.getWest(), this.position));
+                this.history.add(new Movement(this.mvtId, this.position, position.getWest()));
+                this.history.add(new Movement(this.mvtId, position.getWest(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getWest().getEnergy());
                 this.position.getWest().setHidden(false);
                 this.setLostEnergy(this.position.getWest().getEnergy() + this.getLostEnergy());
@@ -166,7 +172,7 @@ public class Personnage{
                 chechHistory();
             } else if(position.getWest().getCaseType() == CaseType.BONUS) {
                 System.out.println("Vous avez eu un bonus ! +10 énergie");
-                this.history.add(new Movement(this.position, position.getWest()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getWest()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getWest().getEnergy());
                 this.setWonEnergy(this.position.getWest().getEnergy() + this.getWonEnergy());
                 this.position.getWest().setCaseType(CaseType.BLANK);
@@ -176,7 +182,7 @@ public class Personnage{
                 this.position = position.getWest();
                 chechHistory();
             } else {
-                this.history.add(new Movement(this.position, position.getWest()));
+                this.history.add(new Movement(this.mvtId, this.position, position.getWest()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getWest().getEnergy());
                 this.setLostEnergy(this.position.getWest().getEnergy() + this.getLostEnergy());
                 this.position.getWest().setHidden(false);
@@ -187,6 +193,7 @@ public class Personnage{
         }
         System.out.println("Distance parcourue: " + this.distance);
         this.position.setHidden(false);
+        this.incrementMovement();
         checkWin();
     }
 
@@ -216,6 +223,7 @@ public class Personnage{
             System.out.println("Vous avez perdu au cours de la partie " + this.getLostEnergy());
             System.out.println("==================================");
             System.out.println("Votre chemin utilisé: ");
+            this.getHistory().sort(Comparator.comparingInt(Movement::getId));
             this.getHistory().forEach(mvt -> System.out.println(mvt.getFrom().getId() + " -> " + mvt.getTo().getId()));
             System.out.println("==================================");
             System.out.println("==================================");

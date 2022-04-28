@@ -104,6 +104,7 @@ public class Game {
         final JSONArray history = new JSONArray();
         this.getPersonnage().getHistory().forEach(mvt -> {
             final org.json.JSONObject mvtJson = new org.json.JSONObject();
+            mvtJson.put("id", mvt.getId());
             mvtJson.put("from", mvt.getFrom().getId());
             mvtJson.put("to", mvt.getTo().getId());
             history.put(mvtJson);
@@ -199,7 +200,7 @@ public class Game {
         final List<Movement> history = new ArrayList<>();
         for (int i = 0; i < personnageObject.getJSONArray("history").length(); i++) {
             final org.json.JSONObject mvtObject = personnageObject.getJSONArray("history").getJSONObject(i);
-            history.add(new Movement(cases.stream().filter(c -> c.getId() == mvtObject.getInt("from")).findFirst().orElse(null), cases.stream().filter(c -> c.getId() == mvtObject.getInt("to")).findFirst().orElse(null)));
+            history.add(new Movement(mvtObject.getInt("id"), cases.stream().filter(c -> c.getId() == mvtObject.getInt("from")).findFirst().orElse(null), cases.stream().filter(c -> c.getId() == mvtObject.getInt("to")).findFirst().orElse(null)));
         }
 
         final Personnage personnage = new Personnage(initialEnergy, lostEnergy, wonEnergy, currentEnergy, maxUndoCount, distance, currentUndoCount, direction, position, history);
@@ -254,7 +255,7 @@ public class Game {
             final List<Movement> history = new ArrayList<>();
             for (int j = 0; j < personnageObject.getJSONArray("history").length(); j++) {
                 final org.json.JSONObject mvtObject = personnageObject.getJSONArray("history").getJSONObject(j);
-                history.add(new Movement(cases.stream().filter(c -> c.getId() == mvtObject.getInt("from")).findFirst().orElse(null), cases.stream().filter(c -> c.getId() == mvtObject.getInt("to")).findFirst().orElse(null)));
+                history.add(new Movement(mvtObject.getInt("id"), cases.stream().filter(c -> c.getId() == mvtObject.getInt("from")).findFirst().orElse(null), cases.stream().filter(c -> c.getId() == mvtObject.getInt("to")).findFirst().orElse(null)));
             }
 
             final Personnage personnage = new Personnage(initialEnergy, lostEnergy, wonEnergy, currentEnergy, maxUndoCount, distance, currentUndoCount, direction, position, history);
