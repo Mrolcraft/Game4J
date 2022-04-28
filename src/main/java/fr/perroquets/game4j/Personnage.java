@@ -54,35 +54,131 @@ public class Personnage{
         System.out.println("Vous avez reculé d'une case ! Vous pouvez encore effectuer " + this.currentUndoCount + " marche(s) arrière(s).");
     }
 
+    /*
+    TODO:
+     */
     public void move(Direction direction){
         if(direction == Direction.NORTH){
-            this.history.add(new Movement(this.position, position.getNorth()));
-            this.position=position.getNorth();
-            chechHistory();
+            if(position.getNorth() == null) return;
+            if(position.getNorth().getCaseType() == CaseType.OBSTACLE) {
+                this.history.add(new Movement(this.position, position.getNorth()));
+                this.history.add(new Movement(position.getNorth(), this.position));
+                this.setCurrentEnergy(this.getCurrentEnergy() + position.getNorth().getEnergy());
+                this.position.getNorth().setHidden(false);
+                this.setLostEnergy(this.position.getNorth().getEnergy() + this.getLostEnergy());
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
+                chechHistory();
+            } else if(position.getNorth().getCaseType() == CaseType.BONUS) {
+                this.history.add(new Movement(this.position, position.getNorth()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getNorth().getEnergy());
+                this.setWonEnergy(this.position.getNorth().getEnergy() + this.getWonEnergy());
+                this.position.getNorth().setCaseType(CaseType.BLANK);
+                this.position.getNorth().setHidden(false);
+                this.position.getNorth().setEnergy(-1);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
+                this.position = position.getNorth();
+                chechHistory();
+            }  else {
+                this.history.add(new Movement(this.position, position.getNorth()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getNorth().getEnergy());
+                this.setLostEnergy(this.position.getNorth().getEnergy() + this.getLostEnergy());
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
+                this.position=position.getNorth();
+                chechHistory();
+            }
         }
         if(direction == Direction.SOUTH){
-            this.history.add(new Movement(this.position, position.getSouth()));
-            this.position = position.getSouth();
-            chechHistory();
+            if(position.getSouth() == null) return;
+            if(position.getSouth().getCaseType() == CaseType.OBSTACLE) {
+                this.history.add(new Movement(this.position, position.getSouth()));
+                this.history.add(new Movement(position.getSouth(), this.position));
+                this.setCurrentEnergy(this.getCurrentEnergy() + position.getSouth().getEnergy());
+                this.setLostEnergy(this.position.getSouth().getEnergy() + this.getLostEnergy());
+                this.position.getSouth().setHidden(false);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getSouth().getId()];
+                chechHistory();
+            } else if(position.getSouth().getCaseType() == CaseType.BONUS) {
+                this.history.add(new Movement(this.position, position.getSouth()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getSouth().getEnergy());
+                this.setWonEnergy(this.position.getSouth().getEnergy() + this.getWonEnergy());
+                this.position.getSouth().setCaseType(CaseType.BLANK);
+                this.position.getSouth().setHidden(false);
+                this.position.getSouth().setEnergy(-1);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getSouth().getId()];
+                this.position = position.getSouth();
+                chechHistory();
+            } else {
+                this.history.add(new Movement(this.position, position.getSouth()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getSouth().getEnergy());
+                this.setLostEnergy(this.position.getSouth().getEnergy() + this.getLostEnergy());
+                this.position.getSouth().setHidden(false);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getSouth().getId()];
+                this.position=position.getSouth();
+                chechHistory();
+            }
         }
         if(direction == Direction.EAST){
-            this.history.add(new Movement(this.position, position.getEast()));
-            this.position = position.getEast();
-            chechHistory();
+            if(position.getEast() == null) return;
+            if(position.getEast().getCaseType() == CaseType.OBSTACLE) {
+                this.history.add(new Movement(this.position, position.getEast()));
+                this.history.add(new Movement(position.getEast(), this.position));
+                this.setCurrentEnergy(this.getCurrentEnergy() + position.getEast().getEnergy());
+                this.setLostEnergy(this.position.getEast().getEnergy() + this.getLostEnergy());
+                this.position.getEast().setHidden(false);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getEast().getId()];
+                chechHistory();
+            } else if(position.getEast().getCaseType() == CaseType.BONUS) {
+                this.history.add(new Movement(this.position, position.getEast()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getEast().getEnergy());
+                this.setWonEnergy(this.position.getEast().getEnergy() + this.getWonEnergy());
+                this.position.getEast().setCaseType(CaseType.BLANK);
+                this.position.getEast().setHidden(false);
+                this.position.getEast().setEnergy(-1);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getEast().getId()];
+                this.position = position.getEast();
+                chechHistory();
+            } else {
+                this.history.add(new Movement(this.position, position.getEast()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getEast().getEnergy());
+                this.setLostEnergy(this.position.getEast().getEnergy() + this.getLostEnergy());
+                this.position.getEast().setHidden(false);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getEast().getId()];
+                this.position=position.getEast();
+                chechHistory();
+            }
         }
         if(direction == Direction.WEST) {
-            this.history.add(new Movement(this.position, position.getWest()));
-            this.position = position.getWest();
-            chechHistory();
+            if(position.getWest() == null) return;
+            if(position.getWest().getCaseType() == CaseType.OBSTACLE) {
+                this.history.add(new Movement(this.position, position.getWest()));
+                this.history.add(new Movement(position.getWest(), this.position));
+                this.setCurrentEnergy(this.getCurrentEnergy() + position.getWest().getEnergy());
+                this.position.getWest().setHidden(false);
+                this.setLostEnergy(this.position.getWest().getEnergy() + this.getLostEnergy());
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getWest().getId()];
+                chechHistory();
+            } else if(position.getWest().getCaseType() == CaseType.BONUS) {
+                this.history.add(new Movement(this.position, position.getWest()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getWest().getEnergy());
+                this.setWonEnergy(this.position.getWest().getEnergy() + this.getWonEnergy());
+                this.position.getWest().setCaseType(CaseType.BLANK);
+                this.position.getWest().setHidden(false);
+                this.position.getWest().setEnergy(-1);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getWest().getId()];
+                this.position = position.getWest();
+                chechHistory();
+            } else {
+                this.history.add(new Movement(this.position, position.getWest()));
+                this.setCurrentEnergy(getCurrentEnergy() + position.getWest().getEnergy());
+                this.setLostEnergy(this.position.getWest().getEnergy() + this.getLostEnergy());
+                this.position.getWest().setHidden(false);
+                this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getWest().getId()];
+                this.position=position.getWest();
+                chechHistory();
+            }
         }
-        this.setCurrentEnergy(this.position.getEnergy());
-        if(this.position.getEnergy() > 0) {
-            this.setWonEnergy(this.position.getEnergy() + this.getWonEnergy());
-        } else {
-            this.setLostEnergy(this.position.getEnergy() + this.getLostEnergy());
-        }
-
-        this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getPosition()[0]][this.position.getPosition()[1]];
+        System.out.println("Distance parcourue: " + this.distance);
+        this.position.setHidden(false);
         checkWin();
     }
 
@@ -103,7 +199,7 @@ public class Personnage{
     }
 
     private void checkWin() {
-        if(this.position.getPosition()[0] == Game4J.getInstance().getCurrentGame().getCarte().getDimensions().getArea() - 1 && this.position.getPosition()[1] == Game4J.getInstance().getCurrentGame().getCarte().getDimensions().getArea() - 1) {
+        if(this.position.getCaseType() == CaseType.WIN) {
             System.out.println("Félicitations ! Vous avez gagné !");
             System.out.println("==================================");
             System.out.println("Vous avez parcouru " + this.getDistance() + " mètres.");
@@ -112,17 +208,17 @@ public class Personnage{
             System.out.println("Vous avez perdu au cours de la partie " + this.getLostEnergy());
             System.out.println("==================================");
             System.out.println("Votre chemin utilisé: ");
-            this.getHistory().forEach(mvt -> System.out.println(mvt.getFrom() + " -> " + mvt.getTo()));
+            this.getHistory().forEach(mvt -> System.out.println(mvt.getFrom().getId() + " -> " + mvt.getTo().getId()));
             System.out.println("==================================");
-
+            Game4J.getInstance().getCurrentGame().setGameState(GameState.FINISHED);
         }
     }
 
     private void chechHistory() {
-        if(this.history.stream().filter(h -> h.getTo().getId() == this.position.getId()).count() > 1) {
+        this.history.forEach(c -> System.out.println(c.getFrom().getId() + " -> " + c.getTo().getId()));
+        if(this.history.stream().filter(h -> h.getTo() != null && h.getTo().getId() == this.position.getId()).count() > 1) {
             System.out.println("Vous avez déjà visité cette case dans le passé !");
-            final List<Movement> temp_history = new ArrayList<>();
-            Collections.copy(temp_history, this.history);
+            final List<Movement> temp_history = this.history;
             Collections.reverse(temp_history);
             System.out.println("Voici la boucle: ");
             System.out.println("(" + temp_history.get(0).getFrom().getPosition()[0] + "," + temp_history.get(0).getFrom().getPosition()[1] + ") -> (" + temp_history.get(0).getTo().getPosition()[0] + "," + temp_history.get(0).getTo().getPosition()[1] + ")");

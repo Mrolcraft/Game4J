@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Game {
 
@@ -20,28 +21,40 @@ public class Game {
     private String id;
     private String startDateTime;
     private String endDateTime;
+    private double tauxBonus;
+    private double tauxObstacle;
 
-    public Game(String id, Carte carte, Personnage personnage, GameState gameState) {
+    public Game(String id, Carte carte, Personnage personnage, double tauxBonus, double tauxObstacle, GameState gameState) {
         this.carte = carte;
         this.id = id;
         this.personnage = personnage;
         this.gameState = gameState;
         this.startDateTime = "bla";
         this.endDateTime = "bla";
+        this.tauxBonus = tauxBonus;
+        this.tauxObstacle = tauxObstacle;
     }
 
-    public Game(Carte carte, Personnage personnage, GameState gameState, String id, String startDate, String endDate) {
+    public Game(Carte carte, Personnage personnage, GameState gameState, String id, String startDate, String endDate, double tauxBonus, double tauxObstacle) {
         this.carte = carte;
         this.personnage = personnage;
         this.gameState = gameState;
         this.id = id;
         this.startDateTime = startDate;
         this.endDateTime = endDate;
+        this.tauxBonus = tauxBonus;
+        this.tauxObstacle = tauxObstacle;
     }
 
     public void onGame() {
-        while(this.gameState == GameState.INGAME) {
-
+        while(this.getGameState() == GameState.INGAME) {
+            this.getCarte().afficherCarte();
+            final Scanner scanner = new Scanner(System.in);
+            final String input = scanner.next();
+            if(input.equalsIgnoreCase("z")) this.getPersonnage().move(Direction.NORTH);
+            if(input.equalsIgnoreCase("q")) this.getPersonnage().move(Direction.WEST);
+            if(input.equalsIgnoreCase("s")) this.getPersonnage().move(Direction.SOUTH);
+            if(input.equalsIgnoreCase("d")) this.getPersonnage().move(Direction.EAST);
         }
     }
 
@@ -76,6 +89,8 @@ public class Game {
         final org.json.JSONObject jsonObject = new org.json.JSONObject();
         jsonObject.put("id", this.id);
         jsonObject.put("state", this.getGameState().getId());
+        jsonObject.put("tauxObstacle", this.getTauxObstacle());
+        jsonObject.put("tauxBonus", this.getTauxBonus());
         final org.json.JSONObject personnageObject = new org.json.JSONObject();
         personnageObject.put("initialEnergy", this.getPersonnage().getInitialEnergy());
         personnageObject.put("lostEnergy", this.getPersonnage().getLostEnergy());
@@ -104,6 +119,8 @@ public class Game {
             caseObject.put("y", c.getPosition()[1]);
             caseObject.put("id", c.getId());
             caseObject.put("energy", c.getEnergy());
+            caseObject.put("type", c.getCaseType().getId());
+            caseObject.put("hidden", c.isHidden());
             cases.put(caseObject);
         });
         mapObject.put("cases", cases);
@@ -151,7 +168,7 @@ public class Game {
         final int dimensions = mapObject.getInt("dimensions");
         final List<Case> cases = new ArrayList<>();
         for (int i = 0; i < mapObject.getJSONArray("cases").length(); i++) {
-            cases.add(new Case(mapObject.getInt("x"), mapObject.getInt("y"), mapObject.getInt("id"), mapObject.getInt("energy")));
+            cases.add(new Case(mapObject.getInt("x"), mapObject.getInt("y"), mapObject.getInt("id"), mapObject.getInt("energy"), CaseType.getFromID(mapObject.getInt("type")), mapObject.getBoolean("hidden")));
         }
         int[][] matrix_distance = new int[dimensions][dimensions];
         int[][] matrix_energy = new int[dimensions][dimensions];
@@ -186,7 +203,7 @@ public class Game {
         }
 
         final Personnage personnage = new Personnage(initialEnergy, lostEnergy, wonEnergy, currentEnergy, maxUndoCount, distance, currentUndoCount, direction, position, history);
-        return new Game(carte, personnage, GameState.getFromID(game.getInt("state")), id, game.getString("start_date"), game.getString("end_date"));
+        return new Game(carte, personnage, GameState.getFromID(game.getInt("state")), id, game.getString("start_date"), game.getString("end_date"), game.getDouble("tauxBonus"), game.getDouble("tauxObstacle"));
     }
 
     public static List<Game> restoreAllGames() throws IOException, ParseException{
@@ -206,7 +223,7 @@ public class Game {
             final int dimensions = mapObject.getInt("dimensions");
             final List<Case> cases = new ArrayList<>();
             for (int j = 0; j < mapObject.getJSONArray("cases").length(); j++) {
-                cases.add(new Case(mapObject.getJSONArray("cases").getJSONObject(j).getInt("x"), mapObject.getJSONArray("cases").getJSONObject(j).getInt("y"), mapObject.getJSONArray("cases").getJSONObject(j).getInt("id"), mapObject.getJSONArray("cases").getJSONObject(j).getInt("energy")));
+                cases.add(new Case(mapObject.getJSONArray("cases").getJSONObject(j).getInt("x"), mapObject.getJSONArray("cases").getJSONObject(j).getInt("y"), mapObject.getJSONArray("cases").getJSONObject(j).getInt("id"), mapObject.getJSONArray("cases").getJSONObject(j).getInt("energy"), CaseType.getFromID(mapObject.getJSONArray("cases").getJSONObject(j).getInt("type")), mapObject.getJSONArray("cases").getJSONObject(j).getBoolean("hidden")));
             }
             int[][] matrix_distance = new int[dimensions][dimensions];
             int[][] matrix_energy = new int[dimensions][dimensions];
@@ -241,14 +258,14 @@ public class Game {
             }
 
             final Personnage personnage = new Personnage(initialEnergy, lostEnergy, wonEnergy, currentEnergy, maxUndoCount, distance, currentUndoCount, direction, position, history);
-            games.add(new Game(carte, personnage, GameState.getFromID(game.getInt("state")), game.getString("id"), game.getString("start_date"), game.getString("end_date")));
+            games.add(new Game(carte, personnage, GameState.getFromID(game.getInt("state")), game.getString("id"), game.getString("start_date"), game.getString("end_date"), game.getDouble("tauxBonus"), game.getDouble("tauxObstacle")));
         }
         return games;
     }
 
     public void generateMap() {
         this.gameState = GameState.LOADING;
-        this.getCarte().generateCarte();
+        this.getCarte().generateCarte(this);
     }
 
     public void pause() {
@@ -301,5 +318,13 @@ public class Game {
 
     public String getId() {
         return id;
+    }
+
+    public double getTauxBonus() {
+        return this.tauxBonus;
+    }
+
+    public double getTauxObstacle() {
+        return this.tauxObstacle;
     }
 }

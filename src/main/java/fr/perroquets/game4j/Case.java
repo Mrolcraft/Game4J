@@ -6,12 +6,32 @@ public class Case {
     private int y;
     private int id;
     private int energy;
+    private CaseType caseType;
+    private boolean hidden;
 
-    public Case(int x, int y, int id, int energy) {
+    public Case(int x, int y, int id, int energy, CaseType caseType, boolean hidden) {
         this.x = x;
         this.y = y;
         this.id = id;
         this.energy = energy;
+        this.caseType = caseType;
+        this.hidden = hidden;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public void setCaseType(CaseType caseType) {
+        this.caseType = caseType;
+    }
+
+    public CaseType getCaseType() {
+        return caseType;
     }
 
     public int[] getPosition() {

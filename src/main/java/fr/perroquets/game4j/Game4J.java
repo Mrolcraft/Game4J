@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game4J {
@@ -16,6 +17,7 @@ public class Game4J {
     private static Game4J instance;
     private Game currentGame;
     private List<Game> allGames = new ArrayList<>();
+    private boolean debug = false;
 
     public static void main(String[] args) {
         if(instance == null) {
@@ -23,19 +25,7 @@ public class Game4J {
         }
     }
 
-    private Game4J() {
-        System.out.println("Bienvenue sur GAME4J 2000");
-        try {
-            final File saveFile = new File("save.json");
-            if(!saveFile.exists()) {
-                saveFile.createNewFile();
-                final BufferedWriter writer = new BufferedWriter(new FileWriter("save.json"));
-                writer.write("{\"games\":[]}");
-                writer.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void launchGame() {
         System.out.println(" ");
         System.out.println("============================================");
         System.out.println("                MENU DU JEU");
@@ -50,28 +40,21 @@ public class Game4J {
         final int entry = scanner.nextInt();
         if(entry == 1) {
             System.out.println("Vous avez décidé de commencer une nouvelle partie...");
-            this.currentGame = new Game("BLABLABLA", new Carte(Dimensions.QUATRE_PAR_QUATRE), new Personnage(20, 0, 0, 6, 0, 0, 20, null), GameState.LOADING);
+            System.out.println("Génération de la partie...");
+            final Random random = new Random();
+            final int energy = random.nextInt(100-1)+1;
+            this.currentGame = new Game("BLABLA", new Carte(Dimensions.SEPT_PAR_SEPT), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
             this.currentGame.generateMap();
-            this.currentGame.getCarte().generate_matrix_distance();
-            this.currentGame.getCarte().generate_matrix_energy();
             this.currentGame.getPersonnage().setPosition(this.currentGame.getCarte().getCases().get(0));
+            this.currentGame.getPersonnage().getPosition().setHidden(false);
             try {
                 this.currentGame.saveGame();
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
-            final Dijkstra dijkstra = new Dijkstra();
-            List<Integer> path = dijkstra.getPath(this.currentGame.getCarte().getMatrix_distance(), 0, 15);
-            System.out.println("Best path in distance");
-            for (Integer i: path) {
-                System.out.println(i);
-            }
-            final DijkstraEnergy dijkstraEnergy = new DijkstraEnergy();
-            List<Integer> pathEnergy = dijkstraEnergy.getPath(this.currentGame.getCarte().getMatrix_energy(), 0, 15);
-            System.out.println("Best path in energy");
-            for (Integer i: pathEnergy) {
-                System.out.println(i);
-            }
+            System.out.println("Début de la partie...");
+            this.currentGame.setGameState(GameState.INGAME);
+            this.currentGame.onGame();
         } else if(entry == 2) {
             System.out.println("Vous avez décidé de reprendre une partie en cours...");
         } else if(entry == 3) {
@@ -92,6 +75,27 @@ public class Game4J {
         } else {
             System.out.println("Aie.");
         }
+    }
+
+    private Game4J() {
+        System.out.println("Bienvenue sur GAME4J 2000");
+        try {
+            final File saveFile = new File("save.json");
+            if(!saveFile.exists()) {
+                saveFile.createNewFile();
+                final BufferedWriter writer = new BufferedWriter(new FileWriter("save.json"));
+                writer.write("{\"games\":[]}");
+                writer.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final MainThread thread = new MainThread();
+        thread.start();
+    }
+
+    public boolean isDebug() {
+        return debug;
     }
 
     public Game getCurrentGame() {
