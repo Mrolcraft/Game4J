@@ -61,6 +61,7 @@ public class Personnage{
         if(direction == Direction.NORTH){
             if(position.getNorth() == null) return;
             if(position.getNorth().getCaseType() == CaseType.OBSTACLE) {
+                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.position, position.getNorth()));
                 this.history.add(new Movement(position.getNorth(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getNorth().getEnergy());
@@ -69,6 +70,7 @@ public class Personnage{
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
                 chechHistory();
             } else if(position.getNorth().getCaseType() == CaseType.BONUS) {
+                System.out.println("Vous avez eu un bonus ! +10 énergie");
                 this.history.add(new Movement(this.position, position.getNorth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getNorth().getEnergy());
                 this.setWonEnergy(this.position.getNorth().getEnergy() + this.getWonEnergy());
@@ -90,6 +92,7 @@ public class Personnage{
         if(direction == Direction.SOUTH){
             if(position.getSouth() == null) return;
             if(position.getSouth().getCaseType() == CaseType.OBSTACLE) {
+                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.position, position.getSouth()));
                 this.history.add(new Movement(position.getSouth(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getSouth().getEnergy());
@@ -98,6 +101,7 @@ public class Personnage{
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getSouth().getId()];
                 chechHistory();
             } else if(position.getSouth().getCaseType() == CaseType.BONUS) {
+                System.out.println("Vous avez eu un bonus ! +10 énergie");
                 this.history.add(new Movement(this.position, position.getSouth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getSouth().getEnergy());
                 this.setWonEnergy(this.position.getSouth().getEnergy() + this.getWonEnergy());
@@ -120,6 +124,7 @@ public class Personnage{
         if(direction == Direction.EAST){
             if(position.getEast() == null) return;
             if(position.getEast().getCaseType() == CaseType.OBSTACLE) {
+                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.position, position.getEast()));
                 this.history.add(new Movement(position.getEast(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getEast().getEnergy());
@@ -128,6 +133,7 @@ public class Personnage{
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getEast().getId()];
                 chechHistory();
             } else if(position.getEast().getCaseType() == CaseType.BONUS) {
+                System.out.println("Vous avez eu un bonus ! +10 énergie");
                 this.history.add(new Movement(this.position, position.getEast()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getEast().getEnergy());
                 this.setWonEnergy(this.position.getEast().getEnergy() + this.getWonEnergy());
@@ -150,6 +156,7 @@ public class Personnage{
         if(direction == Direction.WEST) {
             if(position.getWest() == null) return;
             if(position.getWest().getCaseType() == CaseType.OBSTACLE) {
+                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.position, position.getWest()));
                 this.history.add(new Movement(position.getWest(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getWest().getEnergy());
@@ -158,6 +165,7 @@ public class Personnage{
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getWest().getId()];
                 chechHistory();
             } else if(position.getWest().getCaseType() == CaseType.BONUS) {
+                System.out.println("Vous avez eu un bonus ! +10 énergie");
                 this.history.add(new Movement(this.position, position.getWest()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getWest().getEnergy());
                 this.setWonEnergy(this.position.getWest().getEnergy() + this.getWonEnergy());
@@ -209,6 +217,31 @@ public class Personnage{
             System.out.println("==================================");
             System.out.println("Votre chemin utilisé: ");
             this.getHistory().forEach(mvt -> System.out.println(mvt.getFrom().getId() + " -> " + mvt.getTo().getId()));
+            System.out.println("==================================");
+            System.out.println("==================================");
+            System.out.println("Le meilleur chemin en terme de distance: ");
+            int distance = 0;
+            for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().size() - 1; i++) {
+                System.out.println("Mvt " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i) + " -> " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i+1) + " : " + Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i+1)] + " m.");
+                distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i+1)];
+            }
+            System.out.println("Distance totale minimum: " + distance + " m");
+            System.out.println("==================================");
+            System.out.println("Le meilleur chemin en terme d'energie: ");
+            int costEnergy = 0;
+            for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().size() - 1; i++) {
+                System.out.println("Mvt " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i) + " -> " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i+1) + " : " + Game4J.getInstance().getCurrentGame().getCarte().getMatrix_energy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i+1)] + " ue.");
+                costEnergy += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_energy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i+1)];
+            }
+            System.out.println("Cout total minimum: " + costEnergy + " m");
+            System.out.println("==================================");
+            System.out.println("Le meilleur chemin pour maximiser l'energie: ");
+            int costMaxEnergy = 0;
+            for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().size() - 1; i++) {
+                System.out.println("Mvt " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i) + " -> " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i+1) + " : " + Game4J.getInstance().getCurrentGame().getCarte().getMatrix_maxEnergy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i+1)] + " ue.");
+                costMaxEnergy += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_maxEnergy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i+1)];
+            }
+            System.out.println("Distance totale minimum: " + costMaxEnergy + " m");
             System.out.println("==================================");
             Game4J.getInstance().getCurrentGame().setGameState(GameState.FINISHED);
         }
