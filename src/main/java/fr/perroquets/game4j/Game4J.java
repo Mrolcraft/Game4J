@@ -39,8 +39,8 @@ public class Game4J {
         final Scanner scanner = new Scanner(System.in);
         final int entry = scanner.nextInt();
         if(entry == 1) {
-            System.out.println("Vous avez décidé de commencer une nouvelle partie...");
-            System.out.println("Génération de la partie...");
+            System.out.println("Vous avez decide de commencer une nouvelle partie...");
+            System.out.println("Generation de la partie...");
             final Random random = new Random();
             final int energy = random.nextInt(100-1)+1;
             this.currentGame = new Game("BLABLA", new Carte(Dimensions.SEPT_PAR_SEPT), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
@@ -52,13 +52,13 @@ public class Game4J {
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
-            System.out.println("Début de la partie...");
+            System.out.println("Debut de la partie...");
             this.currentGame.setGameState(GameState.INGAME);
             this.currentGame.onGame();
         } else if(entry == 2) {
-            System.out.println("Vous avez décidé de reprendre une partie en cours...");
+            System.out.println("Vous avez decide de reprendre une partie en cours...");
         } else if(entry == 3) {
-            System.out.println("Vous avez décidé de voir l'historique des parties...");
+            System.out.println("Vous avez decide de voir l'historique des parties...");
             try {
                 allGames = Game.restoreAllGames();
             } catch (IOException | ParseException e) {
