@@ -17,7 +17,7 @@ public class Game4J {
     private static Game4J instance;
     private Game currentGame;
     private List<Game> allGames = new ArrayList<>();
-    private boolean debug = true;
+    private boolean debug = false;
 
     public static void main(String[] args) {
         if(instance == null) {
@@ -43,7 +43,7 @@ public class Game4J {
             System.out.println("Generation de la partie...");
             final Random random = new Random();
             final int energy = random.nextInt(100-1)+1;
-            this.currentGame = new Game("BLABLA", new Carte(Dimensions.CINQ_PAR_CINQ), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
+            this.currentGame = new Game("BLABLA", new Carte(Dimensions.QUATRE_PAR_QUATRE), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
             this.currentGame.generateMap();
             this.currentGame.getPersonnage().setPosition(this.currentGame.getCarte().getCases().get(0));
             this.currentGame.getPersonnage().getPosition().setHidden(false);

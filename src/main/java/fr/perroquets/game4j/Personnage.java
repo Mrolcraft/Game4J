@@ -50,8 +50,10 @@ public class Personnage{
             return;
         }
 
+        this.currentEnergy = this.getCurrentEnergy() + this.history.get(this.history.size() - 1).getFrom().getEnergy();
         this.position = this.history.get(this.history.size() - 1).getFrom();
         this.history.remove(this.history.size() - 1);
+        this.mvtId--;
         this.currentUndoCount--;
         System.out.println("Vous avez reculé d'une case ! Vous pouvez encore effectuer " + this.currentUndoCount + " marche(s) arrière(s).");
     }
@@ -69,6 +71,7 @@ public class Personnage{
             if(position.getNorth().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
+                this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getNorth(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getNorth().getEnergy());
                 this.position.getNorth().setHidden(false);
@@ -100,6 +103,7 @@ public class Personnage{
             if(position.getSouth().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getSouth()));
+                this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getSouth(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getSouth().getEnergy());
                 this.setLostEnergy(this.position.getSouth().getEnergy() + this.getLostEnergy());
@@ -132,6 +136,7 @@ public class Personnage{
             if(position.getEast().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getEast()));
+                this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getEast(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getEast().getEnergy());
                 this.setLostEnergy(this.position.getEast().getEnergy() + this.getLostEnergy());
@@ -164,6 +169,7 @@ public class Personnage{
             if(position.getWest().getCaseType() == CaseType.OBSTACLE) {
                 System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getWest()));
+                this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getWest(), this.position));
                 this.setCurrentEnergy(this.getCurrentEnergy() + position.getWest().getEnergy());
                 this.position.getWest().setHidden(false);

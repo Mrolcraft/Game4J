@@ -10,6 +10,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -48,13 +49,55 @@ public class Game {
 
     public void onGame() {
         while(this.getGameState() == GameState.INGAME) {
-            this.getCarte().afficherCarte();
-            final Scanner scanner = new Scanner(System.in);
-            final String input = scanner.next();
-            if(input.equalsIgnoreCase("z")) this.getPersonnage().move(Direction.NORTH);
-            if(input.equalsIgnoreCase("q")) this.getPersonnage().move(Direction.WEST);
-            if(input.equalsIgnoreCase("s")) this.getPersonnage().move(Direction.SOUTH);
-            if(input.equalsIgnoreCase("d")) this.getPersonnage().move(Direction.EAST);
+            if(this.getPersonnage().getCurrentEnergy() > 0) {
+                this.getCarte().afficherCarte();
+                final Scanner scanner = new Scanner(System.in);
+                final String input = scanner.next();
+                if(input.equalsIgnoreCase("z")) this.getPersonnage().move(Direction.NORTH);
+                if(input.equalsIgnoreCase("q")) this.getPersonnage().move(Direction.WEST);
+                if(input.equalsIgnoreCase("s")) this.getPersonnage().move(Direction.SOUTH);
+                if(input.equalsIgnoreCase("d")) this.getPersonnage().move(Direction.EAST);
+                if(input.equalsIgnoreCase("r")) this.getPersonnage().undoMove();
+            } else {
+                this.getCarte().afficherCarte();
+                System.out.println("Vous avez malheureusement perdu (cheh)");
+                System.out.println("==================================");
+                System.out.println("Vous avez parcouru " + this.getPersonnage().getDistance() + " mètres.");
+                System.out.println("Il vous reste " + this.getPersonnage().getCurrentEnergy() + " ue.");
+                System.out.println("Vous avez gagné au cours de la partie " + this.getPersonnage().getWonEnergy());
+                System.out.println("Vous avez perdu au cours de la partie " + this.getPersonnage().getLostEnergy());
+                System.out.println("==================================");
+                System.out.println("Votre chemin utilisé: ");
+                this.getPersonnage().getHistory().sort(Comparator.comparingInt(Movement::getId));
+                this.getPersonnage().getHistory().forEach(mvt -> System.out.println(mvt.getFrom().getId() + " -> " + mvt.getTo().getId()));
+                System.out.println("==================================");
+                System.out.println("==================================");
+                System.out.println("Le meilleur chemin en terme de distance: ");
+                int distance = 0;
+                for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().size() - 1; i++) {
+                    System.out.println("Mvt " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i) + " -> " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i+1) + " : " + Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i+1)] + " m.");
+                    distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().get(i+1)];
+                }
+                System.out.println("Distance totale minimum: " + distance + " m");
+                System.out.println("==================================");
+                System.out.println("Le meilleur chemin en terme d'energie: ");
+                int costEnergy = 0;
+                for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().size() - 1; i++) {
+                    System.out.println("Mvt " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i) + " -> " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i+1) + " : " + Game4J.getInstance().getCurrentGame().getCarte().getMatrix_energy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i+1)] + " ue.");
+                    costEnergy += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_energy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathInEnergy().get(i+1)];
+                }
+                System.out.println("Cout total minimum: " + costEnergy + " ue.");
+                System.out.println("==================================");
+                System.out.println("Le meilleur chemin pour maximiser l'energie: ");
+                int costMaxEnergy = 0;
+                for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().size() - 1; i++) {
+                    System.out.println("Mvt " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i) + " -> " + Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i+1) + " : " + Game4J.getInstance().getCurrentGame().getCarte().getMatrix_maxEnergy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i+1)] + " ue.");
+                    costMaxEnergy += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_maxEnergy()[Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i)][Game4J.getInstance().getCurrentGame().getCarte().getBestPathToMaxEnergy().get(i+1)];
+                }
+                System.out.println("Distance totale minimum: " + costMaxEnergy + " ue.");
+                System.out.println("==================================");
+                Game4J.getInstance().getCurrentGame().setGameState(GameState.FINISHED);
+            }
         }
     }
 
