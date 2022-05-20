@@ -51,13 +51,6 @@ public class Game {
         while(this.getGameState() == GameState.INGAME) {
             if(this.getPersonnage().getCurrentEnergy() > 0) {
                 this.getCarte().afficherCarte();
-                final Scanner scanner = new Scanner(System.in);
-                final String input = scanner.next();
-                if(input.equalsIgnoreCase("z")) this.getPersonnage().move(Direction.NORTH);
-                if(input.equalsIgnoreCase("q")) this.getPersonnage().move(Direction.WEST);
-                if(input.equalsIgnoreCase("s")) this.getPersonnage().move(Direction.SOUTH);
-                if(input.equalsIgnoreCase("d")) this.getPersonnage().move(Direction.EAST);
-                if(input.equalsIgnoreCase("r")) this.getPersonnage().undoMove();
             } else {
                 this.getCarte().afficherCarte();
                 System.out.println("Vous avez malheureusement perdu (cheh)");

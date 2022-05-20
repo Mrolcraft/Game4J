@@ -3,6 +3,8 @@ package fr.perroquets.game4j;
 import fr.perroquets.game4j.carte.Carte;
 import org.json.simple.parser.ParseException;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -18,6 +20,7 @@ public class Game4J {
     private Game currentGame;
     private List<Game> allGames = new ArrayList<>();
     private boolean debug = false;
+    private GameFrame gameFrame;
 
     public static void main(String[] args) {
         if(instance == null) {
@@ -26,7 +29,7 @@ public class Game4J {
     }
 
     public void launchGame() {
-        System.out.println(" ");
+        /*System.out.println(" ");
         System.out.println("============================================");
         System.out.println("                MENU DU JEU");
         System.out.println(" ");
@@ -36,25 +39,12 @@ public class Game4J {
         System.out.println(" ");
         System.out.println("============================================");
 
+
+
         final Scanner scanner = new Scanner(System.in);
         final int entry = scanner.nextInt();
         if(entry == 1) {
-            System.out.println("Vous avez decide de commencer une nouvelle partie...");
-            System.out.println("Generation de la partie...");
-            final Random random = new Random();
-            final int energy = random.nextInt(100-1)+1;
-            this.currentGame = new Game("BLABLA", new Carte(Dimensions.QUATRE_PAR_QUATRE), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
-            this.currentGame.generateMap();
-            this.currentGame.getPersonnage().setPosition(this.currentGame.getCarte().getCases().get(0));
-            this.currentGame.getPersonnage().getPosition().setHidden(false);
-            try {
-                this.currentGame.saveGame();
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Debut de la partie...");
-            this.currentGame.setGameState(GameState.INGAME);
-            this.currentGame.onGame();
+
         } else if(entry == 2) {
             System.out.println("Vous avez decide de reprendre une partie en cours...");
         } else if(entry == 3) {
@@ -74,7 +64,44 @@ public class Game4J {
             }
         } else {
             System.out.println("Aie.");
+        }*/
+
+        final Menu menu = new Menu();
+        menu.setVisible(true);
+    }
+
+    public void initNewGame() {
+        System.out.println("Vous avez decide de commencer une nouvelle partie...");
+        System.out.println("Generation de la partie...");
+        final Random random = new Random();
+        final int energy = random.nextInt(100-1)+1;
+        this.currentGame = new Game(this.generateID(), new Carte(Dimensions.QUATRE_PAR_QUATRE), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
+        this.currentGame.generateMap();
+        this.currentGame.getPersonnage().setPosition(this.currentGame.getCarte().getCases().get(0));
+        this.currentGame.getPersonnage().getPosition().setHidden(false);
+        try {
+            this.currentGame.saveGame();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
         }
+        System.out.println("Debut de la partie...");
+        this.currentGame.setGameState(GameState.INGAME);
+        final GameFrame gameFrame = new GameFrame();
+        gameFrame.setVisible(true);
+        this.gameFrame = gameFrame;
+        final GameThread gameThread = new GameThread();
+        gameThread.start();
+    }
+
+    private String generateID() {
+        final Random random = new Random();
+        final StringBuilder stringBuilder = new StringBuilder();
+        final String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        for (int i = 0; i < 10; i++) {
+            final int index = random.nextInt(35);
+            stringBuilder.append(letters.toCharArray()[index]);
+        }
+        return stringBuilder.toString();
     }
 
     private Game4J() {
@@ -100,6 +127,14 @@ public class Game4J {
 
     public Game getCurrentGame() {
         return this.currentGame;
+    }
+
+    public GameFrame getGameFrame() {
+        return gameFrame;
+    }
+
+    public void setGameFrame(GameFrame gameFrame) {
+        this.gameFrame = gameFrame;
     }
 
     public static Game4J getInstance() {
