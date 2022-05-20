@@ -1,5 +1,8 @@
 package fr.perroquets.game4j;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,8 +71,10 @@ public class Personnage{
     public void move(Direction direction){
         if(direction == Direction.NORTH){
             if(position.getNorth() == null) return;
+            System.out.println(position.getNorth().getId());
             if(position.getNorth().getCaseType() == CaseType.OBSTACLE) {
-                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("C'est con vous avez touche un obstacle !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("-10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
                 this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getNorth(), this.position));
@@ -77,9 +82,11 @@ public class Personnage{
                 this.position.getNorth().setHidden(false);
                 this.setLostEnergy(this.position.getNorth().getEnergy() + this.getLostEnergy());
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             } else if(position.getNorth().getCaseType() == CaseType.BONUS) {
-                System.out.println("Vous avez eu un bonus ! +10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez eu un bonus !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("+10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getNorth().getEnergy());
                 this.setWonEnergy(this.position.getNorth().getEnergy() + this.getWonEnergy());
@@ -88,20 +95,25 @@ public class Personnage{
                 this.position.getNorth().setEnergy(-1);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
                 this.position = position.getNorth();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             }  else {
+                Game4J.getInstance().getGameFrame().getLastEvent().setText(" ");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText(" ");
                 this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getNorth().getEnergy());
                 this.setLostEnergy(this.position.getNorth().getEnergy() + this.getLostEnergy());
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getNorth().getId()];
                 this.position=position.getNorth();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             }
         }
         if(direction == Direction.SOUTH){
             if(position.getSouth() == null) return;
             if(position.getSouth().getCaseType() == CaseType.OBSTACLE) {
-                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez touché un obstacle !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("-10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getSouth()));
                 this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getSouth(), this.position));
@@ -109,9 +121,11 @@ public class Personnage{
                 this.setLostEnergy(this.position.getSouth().getEnergy() + this.getLostEnergy());
                 this.position.getSouth().setHidden(false);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getSouth().getId()];
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             } else if(position.getSouth().getCaseType() == CaseType.BONUS) {
-                System.out.println("Vous avez eu un bonus ! +10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez eu un bonus !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("+10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getSouth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getSouth().getEnergy());
                 this.setWonEnergy(this.position.getSouth().getEnergy() + this.getWonEnergy());
@@ -120,21 +134,26 @@ public class Personnage{
                 this.position.getSouth().setEnergy(-1);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getSouth().getId()];
                 this.position = position.getSouth();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             } else {
+                Game4J.getInstance().getGameFrame().getLastEvent().setText(" ");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText(" ");
                 this.history.add(new Movement(this.mvtId, this.position, position.getSouth()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getSouth().getEnergy());
                 this.setLostEnergy(this.position.getSouth().getEnergy() + this.getLostEnergy());
                 this.position.getSouth().setHidden(false);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getSouth().getId()];
                 this.position=position.getSouth();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             }
         }
         if(direction == Direction.EAST){
             if(position.getEast() == null) return;
             if(position.getEast().getCaseType() == CaseType.OBSTACLE) {
-                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez touché un obstacle !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("-10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getEast()));
                 this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getEast(), this.position));
@@ -142,9 +161,11 @@ public class Personnage{
                 this.setLostEnergy(this.position.getEast().getEnergy() + this.getLostEnergy());
                 this.position.getEast().setHidden(false);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getEast().getId()];
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             } else if(position.getEast().getCaseType() == CaseType.BONUS) {
-                System.out.println("Vous avez eu un bonus ! +10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez eu un bonus !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("+10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getEast()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getEast().getEnergy());
                 this.setWonEnergy(this.position.getEast().getEnergy() + this.getWonEnergy());
@@ -153,21 +174,26 @@ public class Personnage{
                 this.position.getEast().setEnergy(-1);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getEast().getId()];
                 this.position = position.getEast();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             } else {
+                Game4J.getInstance().getGameFrame().getLastEvent().setText(" ");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText(" ");
                 this.history.add(new Movement(this.mvtId, this.position, position.getEast()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getEast().getEnergy());
                 this.setLostEnergy(this.position.getEast().getEnergy() + this.getLostEnergy());
                 this.position.getEast().setHidden(false);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getEast().getId()];
                 this.position=position.getEast();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             }
         }
         if(direction == Direction.WEST) {
             if(position.getWest() == null) return;
             if(position.getWest().getCaseType() == CaseType.OBSTACLE) {
-                System.out.println("C'est con vous avez touche un obstacle ! -10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez touché un obstacle !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("-10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getWest()));
                 this.incrementMovement();
                 this.history.add(new Movement(this.mvtId, position.getWest(), this.position));
@@ -175,9 +201,11 @@ public class Personnage{
                 this.position.getWest().setHidden(false);
                 this.setLostEnergy(this.position.getWest().getEnergy() + this.getLostEnergy());
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getWest().getId()];
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             } else if(position.getWest().getCaseType() == CaseType.BONUS) {
-                System.out.println("Vous avez eu un bonus ! +10 énergie");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez eu un bonus !");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText("+10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getWest()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getWest().getEnergy());
                 this.setWonEnergy(this.position.getWest().getEnergy() + this.getWonEnergy());
@@ -186,21 +214,30 @@ public class Personnage{
                 this.position.getWest().setEnergy(-1);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getWest().getId()];
                 this.position = position.getWest();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             } else {
+                Game4J.getInstance().getGameFrame().getLastEvent().setText(" ");
+                Game4J.getInstance().getGameFrame().getLastEvent2().setText(" ");
                 this.history.add(new Movement(this.mvtId, this.position, position.getWest()));
                 this.setCurrentEnergy(getCurrentEnergy() + position.getWest().getEnergy());
                 this.setLostEnergy(this.position.getWest().getEnergy() + this.getLostEnergy());
                 this.position.getWest().setHidden(false);
                 this.distance += Game4J.getInstance().getCurrentGame().getCarte().getMatrix_distance()[this.position.getId()][this.position.getWest().getId()];
                 this.position=position.getWest();
+                Game4J.getInstance().getGameFrame().getEnergie().setText(this.getCurrentEnergy() + " ue.");
                 chechHistory();
             }
         }
-        System.out.println("Distance parcourue: " + this.distance);
+        Game4J.getInstance().getGameFrame().getDistance().setText(this.distance + " m");
         this.position.setHidden(false);
         this.incrementMovement();
         checkWin();
+        try {
+            Game4J.getInstance().getCurrentGame().saveGame();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setPosition(Case position) {
@@ -221,18 +258,14 @@ public class Personnage{
 
     private void checkWin() {
         if(this.position.getCaseType() == CaseType.WIN) {
-            System.out.println("Félicitations ! Vous avez gagné !");
-            System.out.println("==================================");
-            System.out.println("Vous avez parcouru " + this.getDistance() + " mètres.");
-            System.out.println("Il vous reste " + this.getCurrentEnergy());
-            System.out.println("Vous avez gagné au cours de la partie " + this.getWonEnergy());
-            System.out.println("Vous avez perdu au cours de la partie " + this.getLostEnergy());
-            System.out.println("==================================");
-            System.out.println("Votre chemin utilisé: ");
-            this.getHistory().sort(Comparator.comparingInt(Movement::getId));
-            this.getHistory().forEach(mvt -> System.out.println(mvt.getFrom().getId() + " -> " + mvt.getTo().getId()));
-            System.out.println("==================================");
-            System.out.println("==================================");
+            final EndFrame endFrame = new EndFrame();
+            endFrame.setVisible(true);
+            endFrame.getResumeGame().append("Félicitations ! Vous avez gagné !\n");
+            endFrame.getResumeGame().append(" \n");
+            endFrame.getResumeGame().append("Vous avez parcouru " + this.getDistance() + " mètres.\n");
+            endFrame.getResumeGame().append("Il vous reste " + this.getCurrentEnergy() + "\n");
+            endFrame.getResumeGame().append("Vous avez gagné au cours de la partie " + this.getWonEnergy() + "\n");
+            endFrame.getResumeGame().append("Vous avez perdu au cours de la partie " + this.getLostEnergy() + "\n");
             System.out.println("Le meilleur chemin en terme de distance: ");
             int distance = 0;
             for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().size() - 1; i++) {
@@ -258,6 +291,11 @@ public class Personnage{
             System.out.println("Distance totale minimum: " + costMaxEnergy + " ue.");
             System.out.println("==================================");
             Game4J.getInstance().getCurrentGame().setGameState(GameState.FINISHED);
+            try {
+                Game4J.getInstance().getCurrentGame().saveGame();
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

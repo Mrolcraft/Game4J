@@ -21,6 +21,8 @@ public class Game4J {
     private List<Game> allGames = new ArrayList<>();
     private boolean debug = false;
     private GameFrame gameFrame;
+    private LoadingFrame loadingFrame;
+
 
     public static void main(String[] args) {
         if(instance == null) {
@@ -71,21 +73,27 @@ public class Game4J {
     }
 
     public void initNewGame() {
-        System.out.println("Vous avez decide de commencer une nouvelle partie...");
-        System.out.println("Generation de la partie...");
         final Random random = new Random();
         final int energy = random.nextInt(100-1)+1;
-        this.currentGame = new Game(this.generateID(), new Carte(Dimensions.QUATRE_PAR_QUATRE), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
+        this.currentGame = new Game(this.generateID(), new Carte(Dimensions.CINQ_PAR_CINQ), new Personnage(energy, 0, 0, 6, 0, 0, 20, null), 0.3, 0.3, GameState.LOADING);
+        this.loadingFrame.setProgress(10);
         this.currentGame.generateMap();
+        if(this.currentGame.getCarte().getBestPathInDistance() == null || this.currentGame.getCarte().getBestPathInDistance().size() == 0) {
+            initNewGame();
+            return;
+        }
+        this.loadingFrame.setProgress(70);
         this.currentGame.getPersonnage().setPosition(this.currentGame.getCarte().getCases().get(0));
         this.currentGame.getPersonnage().getPosition().setHidden(false);
+        this.currentGame.setGameState(GameState.INGAME);
         try {
             this.currentGame.saveGame();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+        this.loadingFrame.setProgress(100);
         System.out.println("Debut de la partie...");
-        this.currentGame.setGameState(GameState.INGAME);
+        this.loadingFrame.setVisible(false);
         final GameFrame gameFrame = new GameFrame();
         gameFrame.setVisible(true);
         this.gameFrame = gameFrame;
@@ -139,5 +147,17 @@ public class Game4J {
 
     public static Game4J getInstance() {
         return instance;
+    }
+
+    public LoadingFrame getLoadingFrame() {
+        return loadingFrame;
+    }
+
+    public void setLoadingFrame(LoadingFrame loadingFrame) {
+        this.loadingFrame = loadingFrame;
+    }
+
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
     }
 }

@@ -1,8 +1,11 @@
 package fr.perroquets.game4j;
 
+import org.json.simple.parser.ParseException;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Menu extends JFrame {
     private JButton commencerUneNouvellePartieButton;
@@ -19,13 +22,21 @@ public class Menu extends JFrame {
         this.pack();
         commencerUneNouvellePartieButton.addActionListener(e -> {
             this.setVisible(false);
+            System.out.println("Vous avez decide de commencer une nouvelle partie...");
+            System.out.println("Generation de la partie...");
+            final LoadingFrame loadingFrame = new LoadingFrame();
+            loadingFrame.setVisible(true);
+            Game4J.getInstance().setLoadingFrame(loadingFrame);
             Game4J.getInstance().initNewGame();
         });
         continuerUnePartieExistanteButton.addActionListener(e -> {
-            /*
-           TODO:
-           Récupérer la partie + lancer la fenêtre de jeu
-            */
+            this.setVisible(false);
+            try {
+                final ResumeGameFrame resumeGameFrame = new ResumeGameFrame(Game.restoreAllGames());
+                resumeGameFrame.setVisible(true);
+            } catch (IOException | ParseException ex) {
+                ex.printStackTrace();
+            }
         });
         voirLHistoriqueDesButton.addActionListener(e -> {
             /*

@@ -7,12 +7,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 
 public class Game {
 
@@ -48,23 +44,19 @@ public class Game {
     }
 
     public void onGame() {
+        Game4J.getInstance().getGameFrame().getEnergie().setText(this.getPersonnage().getCurrentEnergy() + " ue.");
         while(this.getGameState() == GameState.INGAME) {
             if(this.getPersonnage().getCurrentEnergy() > 0) {
                 this.getCarte().afficherCarte();
             } else {
                 this.getCarte().afficherCarte();
-                System.out.println("Vous avez malheureusement perdu (cheh)");
-                System.out.println("==================================");
-                System.out.println("Vous avez parcouru " + this.getPersonnage().getDistance() + " mètres.");
-                System.out.println("Il vous reste " + this.getPersonnage().getCurrentEnergy() + " ue.");
-                System.out.println("Vous avez gagné au cours de la partie " + this.getPersonnage().getWonEnergy());
-                System.out.println("Vous avez perdu au cours de la partie " + this.getPersonnage().getLostEnergy());
-                System.out.println("==================================");
-                System.out.println("Votre chemin utilisé: ");
-                this.getPersonnage().getHistory().sort(Comparator.comparingInt(Movement::getId));
-                this.getPersonnage().getHistory().forEach(mvt -> System.out.println(mvt.getFrom().getId() + " -> " + mvt.getTo().getId()));
-                System.out.println("==================================");
-                System.out.println("==================================");
+                final EndFrame endFrame = new EndFrame();
+                endFrame.setVisible(true);
+                endFrame.getResumeGame().append("Malheureusement ! Vous avez perdu !\n");
+                endFrame.getResumeGame().append(" \n");
+                endFrame.getResumeGame().append("Vous avez parcouru " + this.getPersonnage().getDistance() + " mètres.\n");
+                endFrame.getResumeGame().append("Vous avez gagné au cours de la partie " + this.getPersonnage().getWonEnergy() + "\n");
+                endFrame.getResumeGame().append("Vous avez perdu au cours de la partie " + this.getPersonnage().getLostEnergy() + "\n");
                 System.out.println("Le meilleur chemin en terme de distance: ");
                 int distance = 0;
                 for (int i = 0; i < Game4J.getInstance().getCurrentGame().getCarte().getBestPathInDistance().size() - 1; i++) {
@@ -90,6 +82,11 @@ public class Game {
                 System.out.println("Distance totale minimum: " + costMaxEnergy + " ue.");
                 System.out.println("==================================");
                 Game4J.getInstance().getCurrentGame().setGameState(GameState.FINISHED);
+                try {
+                    Game4J.getInstance().getCurrentGame().saveGame();
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -108,14 +105,15 @@ public class Game {
         for (int i = 0; i < json.getJSONArray("games").length(); i++) {
             if(json.getJSONArray("games").getJSONObject(i).getString("id").equals(this.getId())) {
                 index = i;
-                return;
+                break;
             }
         }
 
         if(index != -1) {
-            json.getJSONArray("games").remove(index);
+            json.getJSONArray("games").put(index, gameParsed);
+        } else {
+            json.getJSONArray("games").put(gameParsed);
         }
-        json.getJSONArray("games").put(gameParsed);
         final BufferedWriter writer = new BufferedWriter(new FileWriter("save.json"));
         writer.write(json.toString());
         writer.close();
@@ -205,7 +203,7 @@ public class Game {
         final int dimensions = mapObject.getInt("dimensions");
         final List<Case> cases = new ArrayList<>();
         for (int i = 0; i < mapObject.getJSONArray("cases").length(); i++) {
-            cases.add(new Case(mapObject.getInt("x"), mapObject.getInt("y"), mapObject.getInt("id"), mapObject.getInt("energy"), CaseType.getFromID(mapObject.getInt("type")), mapObject.getBoolean("hidden")));
+            cases.add(new Case(mapObject.getJSONArray("cases").getJSONObject(i).getInt("x"), mapObject.getJSONArray("cases").getJSONObject(i).getInt("y"), mapObject.getJSONArray("cases").getJSONObject(i).getInt("id"), mapObject.getJSONArray("cases").getJSONObject(i).getInt("energy"), CaseType.getFromID(mapObject.getJSONArray("cases").getJSONObject(i).getInt("type")), mapObject.getJSONArray("cases").getJSONObject(i).getBoolean("hidden")));
         }
         int[][] matrix_distance = new int[dimensions][dimensions];
         int[][] matrix_energy = new int[dimensions][dimensions];

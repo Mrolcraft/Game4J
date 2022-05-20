@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.perroquets.game4j.ShowPathFrame">
+  <grid id="27dc6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="704" height="674"/>
+    </constraints>
+    <properties>
+      <preferredSize width="700" height="700"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="eed45" binding="gameFramePanel" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="700" height="700"/>
+          </grid>
+        </constraints>
+        <properties>
+          <minimumSize width="700" height="670"/>
+          <preferredSize width="120" height="30"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="75fa3" class="javax.swing.JLabel" binding="case24">
+            <constraints>
+              <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="d369d" class="javax.swing.JLabel" binding="case23">
+            <constraints>
+              <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="c3d3f" class="javax.swing.JLabel" binding="case22">
+            <constraints>
+              <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="50259" class="javax.swing.JLabel" binding="case21">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="d7f03" class="javax.swing.JLabel" binding="case16">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="e027c" class="javax.swing.JLabel" binding="case17">
+            <constraints>
+              <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="169eb" class="javax.swing.JLabel" binding="case18">
+            <constraints>
+              <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="d7de9" class="javax.swing.JLabel" binding="case19">
+            <constraints>
+              <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="974a1" class="javax.swing.JLabel" binding="case11">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="cff9b" class="javax.swing.JLabel" binding="case12">
+            <constraints>
+              <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="f19de" class="javax.swing.JLabel" binding="case13">
+            <constraints>
+              <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="8d1f9" class="javax.swing.JLabel" binding="case14">
+            <constraints>
+              <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="dd0cf" class="javax.swing.JLabel" binding="case6">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="ca142" class="javax.swing.JLabel" binding="case7">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="b5771" class="javax.swing.JLabel" binding="case8">
+            <constraints>
+              <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="8eb89" class="javax.swing.JLabel" binding="case9">
+            <constraints>
+              <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <vspacer id="59bff">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="ae486">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="221f1">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <hspacer id="92b96">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="e60af">
+            <constraints>
+              <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="56655">
+            <constraints>
+              <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <component id="a31f6" class="javax.swing.JLabel" binding="case10">
+            <constraints>
+              <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="10709" class="javax.swing.JLabel" binding="case15">
+            <constraints>
+              <grid row="4" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="6182a" class="javax.swing.JLabel" binding="case20">
+            <constraints>
+              <grid row="6" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="1fe8c" class="javax.swing.JLabel" binding="case25">
+            <constraints>
+              <grid row="8" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <hspacer id="65512">
+            <constraints>
+              <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <component id="adab3" class="javax.swing.JLabel" binding="case1">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="10"/>
+              <horizontalTextPosition value="11"/>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="b1c3e" class="javax.swing.JLabel" binding="case2">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="d1f2b" class="javax.swing.JLabel" binding="case3">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="d851c" class="javax.swing.JLabel" binding="case4">
+            <constraints>
+              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="10484" class="javax.swing.JLabel" binding="case5">
+            <constraints>
+              <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <icon value="carre.jpg"/>
+              <preferredSize width="50" height="50"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <vspacer id="2640f">
+            <constraints>
+              <grid row="1" column="8" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
