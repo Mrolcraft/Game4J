@@ -17,6 +17,10 @@ public class Kvoisin {
         this.victoire = victoire;
     }
 
+    /**
+     * permet de recuperer un jeu de donnee .scv et le mettre dans une liste
+     * @return ArrayList<Kvoisin>
+     */
     public static ArrayList<Kvoisin> lectureData() {
         ArrayList<Kvoisin> jeuTest = new ArrayList<Kvoisin>();
         try {
@@ -41,6 +45,10 @@ public class Kvoisin {
         return jeuTest;
     }
 
+    /**
+     * permet de recuperer les @param kk prochs voisins afin de ralisesr l'alorithme de k proche voisins.
+     * @param kk
+     */
     public static void algoKVoisin(int kk) {
         List<Kvoisin> jeuTest = lectureData();
         double compteurVic = 0;

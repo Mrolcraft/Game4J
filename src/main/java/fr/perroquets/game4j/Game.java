@@ -50,6 +50,10 @@ public class Game {
         this.isVictory = isVictory;
     }
 
+    /**
+     * permet de savoir si le joueur est en partie ou s'il a gagne ou perdu
+     * affiche également les statistiques
+     */
     public void onGame() {
         Game4J.getInstance().getGameFrame().getEnergie().setText(this.getPersonnage().getCurrentEnergy() + " ue.");
         while(this.getGameState() == GameState.INGAME) {
@@ -102,6 +106,11 @@ public class Game {
         }
     }
 
+    /**
+     * permet de sauvegarder une partie dans un fichier sous format JSON
+     * @throws IOException
+     * @throws ParseException
+     */
     public void saveGame() throws IOException, ParseException {
         final JSONParser jsonParser = new JSONParser();
         org.json.JSONObject json;
@@ -195,6 +204,13 @@ public class Game {
         return jsonObject;
     }
 
+    /**
+     * permet de continuer une sauvegarde à partir d'un @param id
+     * @param id
+     * @return Game
+     * @throws IOException
+     * @throws ParseException
+     */
     public static Game restoreGame(String id) throws IOException, ParseException {
         final JSONParser jsonParser = new JSONParser();
         org.json.JSONObject json;
@@ -253,6 +269,12 @@ public class Game {
         return new Game(carte, personnage, GameState.getFromID(game.getInt("state")), id, game.getString("start_date"), game.getString("end_date"), game.getDouble("tauxBonus"), game.getDouble("tauxObstacle"), game.getBoolean("isVictory"));
     }
 
+    /**
+     * permet de sauvegarder toutes les parties stocker dans le fichier sous format JSON
+     * @return List<Game>
+     * @throws IOException
+     * @throws ParseException
+     */
     public static List<Game> restoreAllGames() throws IOException, ParseException{
         final JSONParser jsonParser = new JSONParser();
         org.json.JSONObject json;
@@ -310,15 +332,24 @@ public class Game {
         return games;
     }
 
+    /**
+     * permet de generer la carte de jeu
+     */
     public void generateMap() {
         this.gameState = GameState.LOADING;
         this.getCarte().generateCarte(this);
     }
 
+    /**
+     * permet de mettre la partie en pause
+     */
     public void pause() {
         this.gameState = GameState.PAUSED;
     }
 
+    /**
+     * permet de continuer la partie
+     */
     public void unpause() {
         this.gameState = GameState.INGAME;
     }
