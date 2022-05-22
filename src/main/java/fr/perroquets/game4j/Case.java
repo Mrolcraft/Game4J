@@ -34,6 +34,10 @@ public class Case {
         return caseType;
     }
 
+    /**
+     * Permet de récupérer la position de la case
+     * @return int[]
+     */
     public int[] getPosition() {
         int[] position = new int[2];
         position[0] = this.x;
@@ -47,12 +51,20 @@ public class Case {
         return id;
     }
 
+    /**
+     * Permet de récupérer le voisin nord de la case actuelle
+     * @return Case
+     */
     public Case getNorth() {
         return Game4J.getInstance().getCurrentGame().getCarte().getCases().stream().filter(aCase ->
                 (aCase.getId() == this.id-Game4J.getInstance().getCurrentGame().getCarte().getDimensions().getSize())
         ).findFirst().orElse(null);
     }
 
+    /**
+     * Permet de récupérer le voisin Sud de la case actuelle
+     * @return Case
+     */
     public Case getSouth() {
         return Game4J.getInstance().getCurrentGame().getCarte().getCases().stream().filter(aCase ->
             (aCase.getId() == this.id+Game4J.getInstance().getCurrentGame().getCarte().getDimensions().getSize())
@@ -60,6 +72,10 @@ public class Case {
 
     }
 
+    /**
+     * Permet de récupérer le voisin Ouest de la case actuelle
+     * @return Case
+     */
     public Case getWest() {
         return Game4J.getInstance().getCurrentGame().getCarte().getCases().stream().filter(aCase ->
                 (aCase.getId() == this.id - 1)
@@ -75,15 +91,14 @@ public class Case {
         this.energy = energy;
     }
 
+    /**
+     * Permet de récupérer le voisin Est de la case actuelle
+     * @return Case
+     */
     public Case getEast() {
         return Game4J.getInstance().getCurrentGame().getCarte().getCases().stream().filter(aCase ->
                 (aCase.getId() == this.id + 1)
         ).findFirst().orElse(null);
-    }
-
-    public double getDistance(Case caseo) {
-        return (Math.sqrt(Math.pow(caseo.getPosition()[0]-this.x,2) + Math.pow(caseo.getPosition()[1]-this.y,2)));
-
     }
 }
 

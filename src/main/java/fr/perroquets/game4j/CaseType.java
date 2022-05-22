@@ -20,6 +20,11 @@ public enum CaseType {
         return id;
     }
 
+    /**
+     * Permet de récupérer {@CaseType} à partir de l'id
+     * @param id
+     * @return CaseType
+     */
     public static CaseType getFromID(int id) {
         for (CaseType type : values()) {
             if(type.getId() == id) return type;

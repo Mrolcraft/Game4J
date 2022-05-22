@@ -19,6 +19,11 @@ public enum GameState {
         return id;
     }
 
+    /**
+     * Permet de récupérer {@GameState} à partir de l'id
+     * @param id
+     * @return GameState
+     */
     public static GameState getFromID(int id) {
         for (GameState gameState : values()) {
             if(gameState.getId() == id) return gameState;

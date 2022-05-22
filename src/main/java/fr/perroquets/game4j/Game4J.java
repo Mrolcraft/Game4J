@@ -36,6 +36,9 @@ public class Game4J {
         menu.setVisible(true);
     }
 
+    /**
+     * Permet d'initialiser une nouvelle partie
+     */
     public void initNewGame() {
         final Random random = new Random();
         final int energy = random.nextInt(100-1)+1;
@@ -65,6 +68,10 @@ public class Game4J {
         gameThread.start();
     }
 
+    /**
+     * Permet de générer un ID aléatoire pour la nouvelle partie
+     * @return String
+     */
     private String generateID() {
         final Random random = new Random();
         final StringBuilder stringBuilder = new StringBuilder();
@@ -76,6 +83,9 @@ public class Game4J {
         return stringBuilder.toString();
     }
 
+    /**
+     * Permet de lancer le jeu
+     */
     private Game4J() {
         System.out.println("Bienvenue sur GAME4J 2000");
         try {

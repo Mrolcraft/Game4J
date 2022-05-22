@@ -15,6 +15,10 @@ public class HistoryFrame extends JFrame {
     private JList list;
     private JPanel panel1;
 
+    /**
+     * Permet d'afficher les parties déjà finies pour les revoirs
+     * @param gameList
+     */
     public HistoryFrame(List<Game> gameList) {
         super("Game4J - Voir l'historique des parties...");
 

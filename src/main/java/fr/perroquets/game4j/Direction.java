@@ -14,6 +14,11 @@ public enum Direction {
         return id;
     }
 
+    /**
+     * Permet de récupérer {@Direction} à partir de l'id
+     * @param id
+     * @return Direction
+     */
     public static Direction getFromID(int id) {
         for (Direction direction : values()) {
             if(direction.getId() == id) return direction;

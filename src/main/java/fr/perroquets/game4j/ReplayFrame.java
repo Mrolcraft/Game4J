@@ -43,6 +43,9 @@ public class ReplayFrame extends JFrame{
     private int vitesse = 0;
     ScheduledFuture<?> scheduledFuture;
 
+    /**
+     * Affiche la fenêtre de replay
+     */
     public ReplayFrame() {
         super("Game4J - Replay de la partie...");
 

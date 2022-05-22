@@ -25,6 +25,17 @@ public class Personnage{
 
     private List<Movement> history = new ArrayList<>();
 
+    /**
+     * Constructeur pour un personnage
+     * @param initialEnergy
+     * @param lostEnergy
+     * @param wonEnergy
+     * @param maxUndoCount
+     * @param currentUndoCount
+     * @param distance
+     * @param currentEnergy
+     * @param position
+     */
     public Personnage(int initialEnergy, int lostEnergy, int wonEnergy, int maxUndoCount, int currentUndoCount, int distance, int currentEnergy, Case position){
         this.initialEnergy=initialEnergy;
         this.lostEnergy=lostEnergy;
@@ -36,6 +47,19 @@ public class Personnage{
         this.currentEnergy = currentEnergy;
     }
 
+    /**
+     * Constructeur pour restaurer un personnage
+     * @param initialEnergy
+     * @param lostEnergy
+     * @param wonEnergy
+     * @param currentEnergy
+     * @param maxUndoCount
+     * @param distance
+     * @param currentUndoCount
+     * @param direction
+     * @param position
+     * @param history
+     */
     public Personnage(int initialEnergy, int lostEnergy, int wonEnergy, int currentEnergy, int maxUndoCount, int distance, int currentUndoCount, Direction direction, Case position, List<Movement> history) {
         this.initialEnergy = initialEnergy;
         this.lostEnergy = lostEnergy;
@@ -49,6 +73,9 @@ public class Personnage{
         this.history = history;
     }
 
+    /**
+     * Annuler un mouvement
+     */
     public void undoMove() {
         if(this.maxUndoCount == this.currentUndoCount) {
             System.out.println("Vous ne pouvez plus annuler de déplacement !");
@@ -67,8 +94,9 @@ public class Personnage{
         this.mvtId++;
     }
 
-    /*
-    TODO:
+    /**
+     * Permet de faire déplacer le joueur
+     * @param direction
      */
     public void move(Direction direction){
         if(direction == Direction.NORTH){
@@ -258,6 +286,9 @@ public class Personnage{
         return currentEnergy;
     }
 
+    /**
+     * Vérifie si le joueur a gagné
+     */
     private void checkWin() {
         if(this.position.getCaseType() == CaseType.WIN) {
             final EndFrame endFrame = new EndFrame();
@@ -305,6 +336,9 @@ public class Personnage{
         }
     }
 
+    /**
+     * Permet de vérifier l'historique du joueur
+     */
     private void chechHistory() {
         this.history.forEach(c -> System.out.println(c.getFrom().getId() + " -> " + c.getTo().getId()));
         if(this.history.stream().filter(h -> h.getTo() != null && h.getTo().getId() == this.position.getId()).count() > 1) {

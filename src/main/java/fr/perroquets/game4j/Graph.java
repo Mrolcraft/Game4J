@@ -7,13 +7,20 @@ public class Graph {
     private int adjMatrix[][];
     private int numVertices;
 
-    // Initialize the matrix
+    /**
+     * Initialise un graphe
+     * @param numVertices
+     */
     public Graph(int numVertices) {
         this.numVertices = numVertices;
         adjMatrix = new int[numVertices][numVertices];
     }
 
-    // Add edges
+    /**
+     * Ajoute une arrête au graphe
+     * @param i
+     * @param j
+     */
     public void addEdge(int i, int j) {
         final Random random = new Random();
         final int weight = random.nextInt(99) + 1;
@@ -21,12 +28,22 @@ public class Graph {
         adjMatrix[j][i] = weight;
     }
 
+    /**
+     * Ajoute une arrête pondérée au graphe
+     * @param i
+     * @param j
+     * @param weight
+     */
     public void addEdge(int i, int j, int weight) {
         adjMatrix[i][j] = weight;
         adjMatrix[j][i] = weight;
     }
 
-    // Remove edges
+    /**
+     * Supprime une arrête du graphe
+     * @param i
+     * @param j
+     */
     public void removeEdge(int i, int j) {
         adjMatrix[i][j] = 0;
         adjMatrix[j][i] = 0;
@@ -36,7 +53,10 @@ public class Graph {
         return adjMatrix;
     }
 
-    // Print the matrix
+    /**
+     * Permet d'afficher la matrice
+     * @return String
+     */
     public String toString() {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < numVertices; i++) {

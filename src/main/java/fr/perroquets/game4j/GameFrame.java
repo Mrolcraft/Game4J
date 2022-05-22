@@ -68,15 +68,6 @@ public class GameFrame extends JFrame{
                 }
             }
         });
-        /*mettreEnPauseButton.addActionListener(e -> {
-            if(Game4J.getInstance().getCurrentGame().getGameState() == GameState.PAUSED) {
-                Game4J.getInstance().getCurrentGame().unpause();
-                mettreEnPauseButton.setText("Mettre en pause");
-            } else {
-                Game4J.getInstance().getCurrentGame().pause();
-                mettreEnPauseButton.setText("Relancer la partie");
-            }
-        });*/
     }
 
     public JLabel getCase6() {

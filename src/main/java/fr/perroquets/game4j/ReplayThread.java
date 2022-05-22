@@ -13,6 +13,9 @@ public class ReplayThread extends Thread{
 
     private int index;
 
+    /**
+     * Initialise le thread permettant de gérer les replays
+     */
     public ReplayThread() {
         this.index = 0;
         for (int i = 1; i < 26; i++) {
@@ -50,6 +53,9 @@ public class ReplayThread extends Thread{
         }
     }
 
+    /**
+     * Met à jour les cases de l'affichage
+     */
     @Override
     public void run() {
         Game4J.getInstance().getCurrentGame().getPersonnage().getHistory().sort(Comparator.comparingInt(Movement::getId));

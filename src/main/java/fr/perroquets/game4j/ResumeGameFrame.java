@@ -16,6 +16,10 @@ public class ResumeGameFrame extends JFrame{
     private JList list;
     private JPanel panel1;
 
+    /**
+     * Affiche la fenêtre pour reprendre une partie en cours
+     * @param gameList
+     */
     public ResumeGameFrame(List<Game> gameList) {
         super("Game4J - Continuer une partie...");
 

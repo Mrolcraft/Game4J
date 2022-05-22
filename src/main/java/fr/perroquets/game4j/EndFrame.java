@@ -11,6 +11,9 @@ public class EndFrame extends JFrame{
     private JButton maxEnergieButton;
     private JButton minEnergieButton;
 
+    /**
+     * Permet l'affichage de l'écran de fin
+     */
     public EndFrame() {
         super("Game4J - Résumé de jeu");
 
@@ -36,7 +39,4 @@ public class EndFrame extends JFrame{
         return resumeGame;
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }

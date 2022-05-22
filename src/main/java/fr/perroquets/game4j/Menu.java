@@ -13,6 +13,9 @@ public class Menu extends JFrame {
     private JButton voirLHistoriqueDesButton;
     private JPanel menuPanel;
 
+    /**
+     * Affiche la fenêtre de menu
+     */
     public Menu() {
         super("Game4J - Menu");
 

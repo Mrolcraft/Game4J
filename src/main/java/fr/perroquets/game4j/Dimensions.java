@@ -26,6 +26,11 @@ public enum Dimensions {
         return size;
     }
 
+    /**
+     * Permet de récupérer {@CaseType} à partir de l'aire de jeu
+     * @param area
+     * @return CaseType
+     */
     public static Dimensions getFromArea(int area) {
         for (Dimensions dimensions:
              values()) {

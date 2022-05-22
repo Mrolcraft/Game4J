@@ -36,6 +36,10 @@ public class ShowPathFrame extends JFrame{
     private JLabel case4;
     private JLabel case5;
 
+    /**
+     * Affiche la fenêtre de résumé de partie.
+     * @param pathType
+     */
     public ShowPathFrame(String pathType) {
         super("Game4J - Résumé de partie");
 
