@@ -8,20 +8,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ResumeGameFrame extends JFrame{
+public class HistoryFrame extends JFrame {
     private JList list;
     private JPanel panel1;
 
-    public ResumeGameFrame(List<Game> gameList) {
-        super("Game4J - Continuer une partie...");
+    public HistoryFrame(List<Game> gameList) {
+        super("Game4J - Voir l'historique des parties...");
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setContentPane(panel1);
-        this.pack();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -38,11 +35,14 @@ public class ResumeGameFrame extends JFrame{
                 }
             }
         });
+        this.setContentPane(panel1);
+        this.pack();
+
         final DefaultListModel<String> model = new DefaultListModel<>();
         Collections.reverse(gameList);
         gameList.forEach(g -> {
-            if(g.getGameState() == GameState.INGAME || g.getGameState() == GameState.PAUSED) {
-                model.addElement(g.getId() + " - " + g.getPersonnage().getCurrentEnergy() + " - " + g.getStartDateTime() + " - " + g.getTauxBonus() + "/" + g.getTauxObstacle());
+            if(g.getGameState() == GameState.FINISHED) {
+                model.addElement(g.getId() + " - " + g.getPersonnage().getCurrentEnergy() + " - " + g.getStartDateTime() + " - " + g.getTauxBonus() + "/" + g.getTauxObstacle() + " - " + (g.isVictory() ? "Victoire" : "Défaite"));
             }
         });
         this.list.setModel(model);
@@ -52,16 +52,14 @@ public class ResumeGameFrame extends JFrame{
                 final JList list = (JList) e.getSource();
                 if(e.getClickCount() == 2) {
                     final String id = list.getSelectedValue().toString().split(" - ")[0];
-                    System.out.println("Restauration de la partie: " + id);
+                    System.out.println("Replay de la partie: " + id);
                     try {
                         final Game game = Game.restoreGame(id);
                         Game4J.getInstance().setCurrentGame(game);
                         game.getCarte().regeneratePath(game);
-                        final GameFrame gameFrame = new GameFrame();
-                        gameFrame.setVisible(true);
-                        Game4J.getInstance().setGameFrame(gameFrame);
-                        final GameThread gameThread = new GameThread();
-                        gameThread.start();
+                        final ReplayFrame replayFrame = new ReplayFrame();
+                        replayFrame.setVisible(true);
+                        Game4J.getInstance().setReplayFrame(replayFrame);
                         hidde();
                     } catch (IOException | ParseException ex) {
                         ex.printStackTrace();
@@ -69,7 +67,10 @@ public class ResumeGameFrame extends JFrame{
                 }
             }
         });
+
+
     }
+
     public void hidde() {
         this.setVisible(false);
     }

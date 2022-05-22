@@ -7,6 +7,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class Game {
     private String startDateTime;
     private String endDateTime;
     private double tauxBonus;
+    private boolean isVictory;
     private double tauxObstacle;
 
     public Game(String id, Carte carte, Personnage personnage, double tauxBonus, double tauxObstacle, GameState gameState) {
@@ -26,13 +29,16 @@ public class Game {
         this.id = id;
         this.personnage = personnage;
         this.gameState = gameState;
-        this.startDateTime = "bla";
+        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        final LocalDateTime now = LocalDateTime.now();
+        this.startDateTime = dtf.format(now);
         this.endDateTime = "bla";
         this.tauxBonus = tauxBonus;
         this.tauxObstacle = tauxObstacle;
+        this.isVictory = false;
     }
 
-    public Game(Carte carte, Personnage personnage, GameState gameState, String id, String startDate, String endDate, double tauxBonus, double tauxObstacle) {
+    public Game(Carte carte, Personnage personnage, GameState gameState, String id, String startDate, String endDate, double tauxBonus, double tauxObstacle, boolean isVictory) {
         this.carte = carte;
         this.personnage = personnage;
         this.gameState = gameState;
@@ -41,6 +47,7 @@ public class Game {
         this.endDateTime = endDate;
         this.tauxBonus = tauxBonus;
         this.tauxObstacle = tauxObstacle;
+        this.isVictory = isVictory;
     }
 
     public void onGame() {
@@ -50,6 +57,7 @@ public class Game {
                 this.getCarte().afficherCarte();
             } else {
                 this.getCarte().afficherCarte();
+                this.isVictory = false;
                 final EndFrame endFrame = new EndFrame();
                 endFrame.setVisible(true);
                 endFrame.getResumeGame().append("Malheureusement ! Vous avez perdu !\n");
@@ -82,6 +90,9 @@ public class Game {
                 System.out.println("Distance totale minimum: " + costMaxEnergy + " ue.");
                 System.out.println("==================================");
                 Game4J.getInstance().getCurrentGame().setGameState(GameState.FINISHED);
+                final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                final LocalDateTime now = LocalDateTime.now();
+                this.setEndDateTime(dtf.format(now));
                 try {
                     Game4J.getInstance().getCurrentGame().saveGame();
                 } catch (IOException | ParseException e) {
@@ -124,6 +135,7 @@ public class Game {
         jsonObject.put("id", this.id);
         jsonObject.put("state", this.getGameState().getId());
         jsonObject.put("tauxObstacle", this.getTauxObstacle());
+        jsonObject.put("isVictory", this.isVictory);
         jsonObject.put("tauxBonus", this.getTauxBonus());
         final org.json.JSONObject personnageObject = new org.json.JSONObject();
         personnageObject.put("initialEnergy", this.getPersonnage().getInitialEnergy());
@@ -238,7 +250,7 @@ public class Game {
         }
 
         final Personnage personnage = new Personnage(initialEnergy, lostEnergy, wonEnergy, currentEnergy, maxUndoCount, distance, currentUndoCount, direction, position, history);
-        return new Game(carte, personnage, GameState.getFromID(game.getInt("state")), id, game.getString("start_date"), game.getString("end_date"), game.getDouble("tauxBonus"), game.getDouble("tauxObstacle"));
+        return new Game(carte, personnage, GameState.getFromID(game.getInt("state")), id, game.getString("start_date"), game.getString("end_date"), game.getDouble("tauxBonus"), game.getDouble("tauxObstacle"), game.getBoolean("isVictory"));
     }
 
     public static List<Game> restoreAllGames() throws IOException, ParseException{
@@ -293,7 +305,7 @@ public class Game {
             }
 
             final Personnage personnage = new Personnage(initialEnergy, lostEnergy, wonEnergy, currentEnergy, maxUndoCount, distance, currentUndoCount, direction, position, history);
-            games.add(new Game(carte, personnage, GameState.getFromID(game.getInt("state")), game.getString("id"), game.getString("start_date"), game.getString("end_date"), game.getDouble("tauxBonus"), game.getDouble("tauxObstacle")));
+            games.add(new Game(carte, personnage, GameState.getFromID(game.getInt("state")), game.getString("id"), game.getString("start_date"), game.getString("end_date"), game.getDouble("tauxBonus"), game.getDouble("tauxObstacle"), game.getBoolean("isVictory")));
         }
         return games;
     }
@@ -361,5 +373,13 @@ public class Game {
 
     public double getTauxObstacle() {
         return this.tauxObstacle;
+    }
+
+    public boolean isVictory() {
+        return isVictory;
+    }
+
+    public void setVictory(boolean victory) {
+        isVictory = victory;
     }
 }

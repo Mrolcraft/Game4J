@@ -3,6 +3,8 @@ package fr.perroquets.game4j;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -259,6 +261,10 @@ public class Personnage{
     private void checkWin() {
         if(this.position.getCaseType() == CaseType.WIN) {
             final EndFrame endFrame = new EndFrame();
+            Game4J.getInstance().getCurrentGame().setVictory(true);
+            final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            final LocalDateTime now = LocalDateTime.now();
+            Game4J.getInstance().getCurrentGame().setEndDateTime(dtf.format(now));
             endFrame.setVisible(true);
             endFrame.getResumeGame().append("Félicitations ! Vous avez gagné !\n");
             endFrame.getResumeGame().append(" \n");

@@ -22,6 +22,7 @@ public class Game4J {
     private boolean debug = false;
     private GameFrame gameFrame;
     private LoadingFrame loadingFrame;
+    private ReplayFrame replayFrame;
 
 
     public static void main(String[] args) {
@@ -31,43 +32,6 @@ public class Game4J {
     }
 
     public void launchGame() {
-        /*System.out.println(" ");
-        System.out.println("============================================");
-        System.out.println("                MENU DU JEU");
-        System.out.println(" ");
-        System.out.println("1: Commencer une nouvelle partie");
-        System.out.println("2: Reprendre une partie en cours");
-        System.out.println("3: Voir l'historique des parties");
-        System.out.println(" ");
-        System.out.println("============================================");
-
-
-
-        final Scanner scanner = new Scanner(System.in);
-        final int entry = scanner.nextInt();
-        if(entry == 1) {
-
-        } else if(entry == 2) {
-            System.out.println("Vous avez decide de reprendre une partie en cours...");
-        } else if(entry == 3) {
-            System.out.println("Vous avez decide de voir l'historique des parties...");
-            try {
-                allGames = Game.restoreAllGames();
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
-            if(allGames.size() == 0) {
-                System.out.println("L'historique est vide...");
-            } else {
-                System.out.println("Historique: ");
-                for (Game game : this.allGames) {
-                    System.out.println("Partie: " + game.getId() + " - " + game.getStartDateTime() + "/" + game.getEndDateTime() + " - " + game.getGameState().getToDisplay());
-                }
-            }
-        } else {
-            System.out.println("Aie.");
-        }*/
-
         final Menu menu = new Menu();
         menu.setVisible(true);
     }
@@ -151,6 +115,14 @@ public class Game4J {
 
     public LoadingFrame getLoadingFrame() {
         return loadingFrame;
+    }
+
+    public void setReplayFrame(ReplayFrame replayFrame) {
+        this.replayFrame = replayFrame;
+    }
+
+    public ReplayFrame getReplayFrame() {
+        return replayFrame;
     }
 
     public void setLoadingFrame(LoadingFrame loadingFrame) {

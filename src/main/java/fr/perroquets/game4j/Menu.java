@@ -39,10 +39,13 @@ public class Menu extends JFrame {
             }
         });
         voirLHistoriqueDesButton.addActionListener(e -> {
-            /*
-           TODO:
-           Afficher l'historique des parties + pouvoir lancer les replays
-            */
+            this.setVisible(false);
+            try {
+                final HistoryFrame historyFrame = new HistoryFrame(Game.restoreAllGames());
+                historyFrame.setVisible(true);
+            } catch (IOException | ParseException ex) {
+                ex.printStackTrace();
+            }
         });
     }
 }
