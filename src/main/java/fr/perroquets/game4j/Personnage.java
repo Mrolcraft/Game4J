@@ -103,7 +103,7 @@ public class Personnage{
             if(position.getNorth() == null) return;
             System.out.println(position.getNorth().getId());
             if(position.getNorth().getCaseType() == CaseType.OBSTACLE) {
-                Game4J.getInstance().getGameFrame().getLastEvent().setText("C'est con vous avez touche un obstacle !");
+                Game4J.getInstance().getGameFrame().getLastEvent().setText("Vous avez touche un obstacle !");
                 Game4J.getInstance().getGameFrame().getLastEvent2().setText("-10 énergie");
                 this.history.add(new Movement(this.mvtId, this.position, position.getNorth()));
                 this.incrementMovement();
